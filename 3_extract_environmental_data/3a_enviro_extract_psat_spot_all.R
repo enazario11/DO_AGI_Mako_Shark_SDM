@@ -15,14 +15,8 @@ set.seed(1004)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #load the data ####
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #aniMotum locs
+  #state space model locs
 dat_locs <- readRDS(here("data/presence_locs/psat_spot_domain/processed/psat_spot_animotum.RDS")) %>% mutate(PA = 0, rep = NA)
-
-  #raw locs w/ avg, max, and med dive depth info by per day
-# dat_dep <- read.csv(here("data/presence_locs/tdl.csv")) %>% 
-#   mutate(date = as.POSIXct(strptime(date, format = "%m/%d/%Y")))
-# 
-# quantile(dat_dep$max_depth, na.rm = T, 0.90) #248 m is the 90% quantile
 
   #PA locs
 pa_locs <- readRDS(here("data/presence_locs/psat_spot_domain/processed/psat_spot_PAs.RDS")) %>% mutate(PA = 1)

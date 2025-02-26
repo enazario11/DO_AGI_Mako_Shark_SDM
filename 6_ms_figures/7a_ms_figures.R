@@ -56,60 +56,8 @@ theme_ms_map <- function(){
     )
 }
 
-### Figure 1: Conceptual fig of hypotheses ###
-#coastline data
-north_map = map_data("world") %>% group_by(group)
-shore     = north_map[north_map$region=="Canada" 
-                      | north_map$region=="USA"
-                      | north_map$region=="Mexico",]
 
-ggplot(shore, aes(long, lat)) +
-  #plot coastline
-  coord_map("mercator", xlim = c(-153, -103), ylim = c(1, 49))+
-  geom_polygon(aes(group=group), fill="grey75",lwd=1)+
-  theme_ms_map()
-
-ggsave(here("figs/ms/fig1_concept_hyp/coast.png"), height = 7 , width = 5, units = c("in"))
-
-### Figure 2: locs over study area bathymetry ####
-#### presence location data ####
-#shark data
-ani_locs <- readRDS(here("data/presence_locs/psat_spot_domain/processed/psat_spot_animotum.RDS")) %>% 
-  mutate(PA = 0, rep = NA) %>% 
-  subset(select = -c(geometry))
-
-names(ani_locs) <- c("tag", "date", "lon", "lat", "PA", "rep")
-
-#bathy data
-r = rast(here("data/enviro/psat_spot_all/bathy_gebco/processed/gebco_bathy_0.25deg2.nc"))
-bathy_df <- as.data.frame(r,xy = TRUE)
-bathy_df <- bathy_df %>%
-  filter(gebco_bathy_0.25deg2 <= 0)
-
-mycolors <- c("#08306B","#023858", "#034B76", "#0B559F", "#045D92","#0469A6","#1379B4","#2F8BBD","#6BAED6", "#509AC6","#74A9CF","#88BEDC", "#90B4D5","#ACBFDC","#C4CBE2" )
-
-ggplot(shore, aes(long, lat)) +
-  #plot coastline
-  coord_map("mercator", xlim = c(-153, -103), ylim = c(1, 49))+
-  geom_polygon(aes(group=group), fill="grey75",lwd=1) +
-  #plot bathymetry map
-  geom_contour_filled(data=bathy_df, 
-                      aes(x,y,z=gebco_bathy_0.25deg2)) +#breaks=seq(0,1,by=0.2)
-  scale_fill_manual(values = mycolors)+
-  #plot shark locations
-  geom_path(data=test, aes(lon, lat, colour=as.factor(tag)), size = 0.5) +
-  scale_color_manual(values = met.brewer("OKeeffe2", 73)) +
-theme_ms_map() +
-  xlim(-153, -103)+
-  ylim(1, 49) +
-  theme(legend.position = "none", 
-        axis.title = element_blank()) + 
-  guides(fill = guide_legend(title = "Bathymetry (m)", reverse = TRUE), 
-         color = FALSE)
-
-ggsave(here("figs/ms/fig2_tracks_bathy/tracks_bathy.png"), height = 7, width = 5, units = c("in"))
-
-### Figure 4: AGI maps ####
+### Figure 2: AGI map ####
 #neutral year
 hsi_rast_gen(date_start = c("2013-09-01"), date_end = c("2014-01-31"), season = "FW", output_name = "neut_FW_Sept2013_Jan2014")
 
@@ -127,7 +75,7 @@ agi_250m_layered <- agi_maps_layerd(rast_folder_base = here("data/enviro/psat_sp
 
 ggsave(here("figs/ms/fig2_agi/agi_250m_layered.png"), agi_250m_layered, height = 7, width = 8, units = c("in"))
 
-### Figure 5: performance metrics overall ####
+### Figure 3a: performance metrics overall ####
 #entire domain and study period
 mod_metric_files <- list.files(here("data/brt/mod_outputs/perf_metric_iters"), pattern = ".rds", full.names = TRUE)
 
@@ -213,7 +161,7 @@ overall_metric_plots <- TSS_overall/AUC_overall/dev_overall
 
 ggsave(here("figs/ms/fig5_metrics_all/overall_metrics.png"), overall_metric_plots, height = 13, width = 5, units = c("in"))
 
-#Figure 6: performance metrics st ####
+#Figure 3b: performance metrics st ####
 #spatiotemporal analysis
 base_st <- readRDS(here("data/brt/mod_outputs/perf_metric_iters/brts_st/base_metrics.rds")) %>% mutate(mod_type = "Base model")
 do_st <- readRDS(here("data/brt/mod_outputs/perf_metric_iters/brts_st/do_metrics.rds")) %>% mutate(mod_type = "DO model")
@@ -340,7 +288,7 @@ all_metric_plots <- TSS_plot/AUC_plot/perc_exp_plot
 
 ggsave(here("figs/ms/fig6_metrics_st/Figure_6_Metrics_st.png"), all_metric_plots, height = 10, width = 13, units = c("in"))
 
-# Figure 7: predictor relative importance ####
+# Figure 4: predictor relative importance ####
 #list models
 base_mod <- readRDS(here("data/brt/mod_outputs/final_mods/brt_base_0m_dail_no_wind.rds"))
 do_mod_fin <- readRDS(here("data/brt/mod_outputs/final_mods/brt_do_0m_250m_dail_seas_ann.rds"))
@@ -484,11 +432,11 @@ ggsave(here("figs/ms/fig3_pred/do_pred.png"), do_pred, height = 7, width = 7, un
 ggsave(here("figs/ms/fig3_pred/agi_pred.png"), agi_pred, height = 7, width = 7, units = c("in"))
 ggsave(here("figs/ms/fig3_pred/do_agi_pred.png"), do_agi_pred, height = 7, width = 7, units = c("in"))
 
-### Figure 8: HSI maps study period ####
+### Figure 5: HSI maps study period ####
 all_maps_avg <- hsi_maps_avg(rast_folder = "data/enviro/psat_spot_all/hsi_rasts/Jan03_Dec15", ms = "Y")
 ggsave(here("figs/ms/fig7_hsi_all/all_maps_avg_20.png"), all_maps_avg, height = 5, width = 8, units = c("in"))
 
-### Figure 9: ENSO HSI maps ####
+### Figure 6: ENSO HSI maps ####
 #have to save using export button otherwise adds border, using height of 750 and width 500 (LN width 300)
 #base year
 enso_base <- hsi_maps_enso_avg(rast_folder = "data/enviro/psat_spot_all/hsi_rasts/Jan13_Dec13", enso = "diff")

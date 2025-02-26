@@ -1,6 +1,10 @@
 ## note: new averaged environmental data files are created throughout this doc that have been commented out
 ## to prevent accidental overwriting. Please uncomment lines as needed.
 
+### NOTE ####
+#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. Please feel free to replicate or replace the file paths as needed.
+
+
 ### libraries ####
 { library(tidyverse)
   library(terra)

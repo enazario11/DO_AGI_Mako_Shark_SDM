@@ -5,11 +5,15 @@ library(sf)
 library(here);here <- here::here
 library(terra)
 library(tmvtnorm)
+set.seed(1004)
+
+### NOTE ####
+#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. Please feel free to replicate or replace the file paths as needed.
 
 ##### load presence data ####
 #spot and psat data
 
-#Location data imported here can be found on Dryad: https://datadryad.org/stash/dataset/doi:10.5061/dryad.31zcrjdxz#readme
+#Location data imported here can be found on Dryad as 'psat_spot_io.csv': https://datadryad.org/stash/dataset/doi:10.5061/dryad.31zcrjdxz#readme
 all_dat <- readRDS(here("data/presence_locs/psat_spot_domain/psat_spot_data.rds")) #
 
 #format for aniMotum
@@ -34,14 +38,12 @@ time_step <- ssm_dat %>%
   ungroup() %>%
   summarise(all_mean = mean(med_diff)/3600) #average time step btwn positions for all tracks is 29 hours
 
-set.seed(1004)
 ssm_crw <- fit_ssm(ssm_dat,
                    model = "crw",
                    time.step = 29) #average median time step in hours
                     
-c(ssm_crw$ssm[[1]]$AICc) 
 ssm_crw_r <- route_path(ssm_crw, map_scale = 10, what = "predicted")
-aniMotum::map(ssm_crw_r, what = "predicted")|aniMotum::map(ssm_crw_r, what = "rerouted")  
+aniMotum::map(ssm_crw_r, what = "predicted")|aniMotum::map(ssm_crw_r, what = "rerouted") #plot ssm output for all sharks
 
 #visually inspect residuals and diagnostic plots 
 resid_crw <- osar(ssm_crw)

@@ -6,6 +6,9 @@ library(here);here <- here::here
 library(terra)
 library(tmvtnorm)
 
+### NOTE ####
+#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. Please feel free to replicate or replace the file paths as needed.
+
 #load data ####
 #checking min and max lat/lon for describing PA domain
 ssm_crw_r <- readRDS(here("data/presence_locs/psat_spot_domain/processed/animotum_reroute_crw_ssm.RDS"))

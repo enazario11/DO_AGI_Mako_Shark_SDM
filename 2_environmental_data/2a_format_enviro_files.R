@@ -1,6 +1,9 @@
 ### note: UO and VO were originally considered to be used as predictor variables, 
 ####though due to model exploration that takes place in folder 6, these variables were 
-####deemed unnecessary to include. 
+####deemed unnecessary to include in the final models. 
+
+### NOTE ####
+#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. Please feel free to replicate or replace the file paths as needed.
 
 ###load packages####
 library(tidyverse)

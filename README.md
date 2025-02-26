@@ -5,7 +5,7 @@
 
 This repository contains the code for our paper:
 
-> Nazario EC, Lezama-Ochoa N, Czapanskiy MF, Dewar HH, Preti A, Fredston AL, Pinsky ML, Pozo Buil M, Hazen EL (2025). _`Dissolved oxygen and metabolic parameters improve species distribution models for a marine predator_. Diveristy and Distributions (DOI link coming soon)
+> Nazario EC, Lezama-Ochoa N, Czapanskiy MF, Dewar HH, Preti A, Fredston AL, Pinsky ML, Pozo Buil M, Hazen EL (2025). _`Dissolved oxygen and metabolic parameters improve species distribution models for a marine predator_. insert journal here (DOI link coming soon)
 
 ### How to cite
 
