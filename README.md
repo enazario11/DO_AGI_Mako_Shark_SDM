@@ -17,12 +17,10 @@ Please cite code from this page as:
 
   - [:file\_folder: 1_species_data](/1_species_data): Species data processing
   - [:file\_folder: 2_environmental_data](/2_environmental_data): Environmental data processing
-  - [:file\_folder: 3_extract_environmental_data](/3_extract_environmental_data): Environmental data extracted for each observed and pseudo-absence location
+  - [:file\_folder: 3_extract_environmental_data](/3_extract_environmental_data): Environmental data extracted for state space modeled and pseudo-absence location
   - [:file\_folder: 4_calculate_AGI](/4_calculate_AGI): Aerobic Growth Index (AGI) calculations
   - [:file\_folder: 5_BRT_fit_and_validate](/5_BRT_fit_and_validate): BRT model fitting and validation, including the spatiotemporal analysis
-  - [:file\_folder: 6_suitability_map_predictions](/6_suitability_map_predictions): Final BRT models used to generate habitat suitability index map predictions
-  - [:file\_folder: 7_diet_data](/7_diet_data): Diet data processing and GII calculations
-  - [:file\_folder: 8_ms_figures](/8_ms_figures): Figures that appear in the manuscript "Dissolved oxygen and metabolic parameters improve species distribution models for a marine predator"
+  - [:file\_folder: 6_ms_figures](/6_ms_figures): Figures that appear in the manuscript "Dissolved oxygen and metabolic parameters improve species distribution models for a marine predator"
   - [:file\_folder: functions](/functions): Functions called throughout the rest of the data processing and analysis folders. 
 
 Folders do not include all code used for model and data exploration. If there is an analysis you are interested in that is not included here, please don't hesitate to reach out. 
