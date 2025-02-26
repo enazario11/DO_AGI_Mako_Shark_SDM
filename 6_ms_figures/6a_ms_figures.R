@@ -12,7 +12,6 @@
   source(here("functions/BRT_evaluation_functions.R"))
   source(here("functions/oxy_demand_functions.R"))
   source(here("functions/avg_functions.R"))
-  source(here("functions/partial_plot.R"))
   source(here("scripts/7a_diet_data.R"))
 }
 
