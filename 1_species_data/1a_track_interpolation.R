@@ -8,12 +8,10 @@ library(tmvtnorm)
 set.seed(1004)
 
 ### NOTE ####
-#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. Please feel free to replicate or replace the file paths as needed.
+#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. 
 
 ##### load presence data ####
-#spot and psat data
-
-#Location data imported here can be found on Dryad as 'psat_spot_io.csv': https://datadryad.org/stash/dataset/doi:10.5061/dryad.31zcrjdxz#readme
+#Location data imported here can also be found on Dryad as 'psat_spot_io.csv': https://datadryad.org/stash/dataset/doi:10.5061/dryad.31zcrjdxz#readme
 all_dat <- readRDS(here("data/presence_locs/psat_spot_domain/psat_spot_data.rds")) #
 
 #format for aniMotum

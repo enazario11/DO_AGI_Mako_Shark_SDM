@@ -1,24 +1,17 @@
-## note: new averaged environmental data files are created throughout this doc that have been commented out
-## to prevent accidental overwriting. Please uncomment lines as needed.
-
 ### NOTE ####
-#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. Please feel free to replicate or replace the file paths as needed.
-
+#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. 
 
 ### libraries ####
-{ library(tidyverse)
-  library(terra)
-  library(here)
-  library(tidyterra)
-}
+library(tidyverse)
+library(terra)
+library(here)
+library(tidyterra)
 
 ### load raster data ####
 dat0_phys <- list.files(here("data/enviro/psat_spot_all/phys_merc/0m/processed"), full.names = TRUE)
-dat60_phys <- list.files(here("data/enviro/psat_spot_all/phys_merc/60m/processed"), full.names = TRUE)
 dat250_phys <- list.files(here("data/enviro/psat_spot_all/phys_merc/250m/processed"), full.names = TRUE)
 
 dat0_bgc <- list.files(here("data/enviro/psat_spot_all/biogeo_cmem/0m"), full.names = TRUE)
-dat60_bgc <- list.files(here("data/enviro/psat_spot_all/biogeo_cmem/60m"), full.names = TRUE)
 dat250_bgc <- list.files(here("data/enviro/psat_spot_all/biogeo_cmem/250m"), full.names = TRUE)
 
 template_rast <- rast(
@@ -26,7 +19,6 @@ template_rast <- rast(
   extent = ext(-153, -103, 1, 49), #study domain (+/- 2 deg of min and max lat/lons from observed and PA locs)
   resolution = 0.25 #coarsest spatial resolution
 )
-
 
 ### average by year ####
 yr_avg_merge <- function(Phys_Input, BGC_Input, template_rast = template_rast, out_rast = NULL, all_names, longnames_input, units_input, phys_layers, bgc_layers){
@@ -73,19 +65,7 @@ dat0_yr <- yr_avg_merge(Phys_Input = dat0_phys, BGC_Input = dat0_bgc,
                         phys_layers = c("somxlavt", "vosaline", "sossheig", "votemper", "vozocrtx", "sozotaux", "vomecrty", "sometauy"), 
                         bgc_layers = c("chl", "o2"))
 
-#writeCDF(dat0_yr, here("data/enviro/psat_spot_all/all_processed/annual_res/dat_0m_annual3.nc"), overwrite = TRUE)
-
-#### 60m ####
-all_names = NULL
-dat60_yr <- yr_avg_merge(Phys_Input = dat60_phys, BGC_Input = dat60_bgc[2],
-                        template_rast = template_rast,
-                        all_names = NULL,
-                        longnames_input = c("salinity", "sea water temperature", "dissolved oxygen"), 
-                        units_input = c("PSU", "C", "mmol/m^3"), 
-                        phys_layers = c("vosaline", "votemper"), 
-                        bgc_layers = c("o2"))
-
-#writeCDF(dat60_yr, here("data/enviro/psat_spot_all/all_processed/annual_res/dat_60m_annual.nc"), overwrite = TRUE)
+writeCDF(dat0_yr, here("data/enviro/psat_spot_all/all_processed/annual_res/dat_0m_annual3.nc"), overwrite = TRUE)
 
 #### 250m #####
 all_names = NULL
@@ -97,7 +77,7 @@ dat250_yr <- yr_avg_merge(Phys_Input = dat250_phys, BGC_Input = dat250_bgc[2],
                         phys_layers = c("vosaline", "votemper"), 
                         bgc_layers = c( "o2"))
 
-#writeCDF(dat250_yr, here("data/enviro/psat_spot_all/all_processed/annual_res/dat_250m_annual.nc"), overwrite = TRUE)
+writeCDF(dat250_yr, here("data/enviro/psat_spot_all/all_processed/annual_res/dat_250m_annual.nc"), overwrite = TRUE)
 
 ### average by season (static) ####
 seas_avg_merge <- function(Phys_Input, BGC_Input, template_rast = template_rast, out_rast = NULL, all_names, longnames_input, units_input, phys_layers, bgc_layers){
@@ -160,19 +140,7 @@ dat0_seas <- seas_avg_merge(Phys_Input = dat0_phys, BGC_Input = dat0_bgc,
                         phys_layers = c("somxlavt", "vosaline", "sossheig", "votemper", "vozocrtx", "sozotaux", "vomecrty", "sometauy"), 
                         bgc_layers = c("chl", "o2"))
 
-#writeCDF(dat0_seas, here("data/enviro/psat_spot_all/all_processed/season_res/dat_0m_season.nc"), overwrite = TRUE)
-
-#### 60m ####
-all_names = NULL
-dat60_seas <- seas_avg_merge(Phys_Input = dat60_phys, BGC_Input = dat60_bgc[2],
-                            template_rast = template_rast,
-                            all_names = NULL,
-                            longnames_input = c("salinity", "sea water temperature", "dissolved oxygen"), 
-                            units_input = c("PSU", "C", "mmol/m^3"), 
-                            phys_layers = c("vosaline", "votemper"), 
-                            bgc_layers = c( "o2"))
-
-#writeCDF(dat60_seas, here("data/enviro/psat_spot_all/all_processed/season_res/dat_60m_season.nc"), overwrite = TRUE)
+writeCDF(dat0_seas, here("data/enviro/psat_spot_all/all_processed/season_res/dat_0m_season.nc"), overwrite = TRUE)
 
 #### 250m ####
 all_names = NULL
@@ -184,5 +152,5 @@ dat250_seas <- seas_avg_merge(Phys_Input = dat250_phys, BGC_Input = dat250_bgc[2
                              phys_layers = c("vosaline", "votemper"), 
                              bgc_layers = c( "o2"))
 
-#writeCDF(dat250_seas, here("data/enviro/psat_spot_all/all_processed/season_res/dat_250m_season.nc"), overwrite = TRUE)
+writeCDF(dat250_seas, here("data/enviro/psat_spot_all/all_processed/season_res/dat_250m_season.nc"), overwrite = TRUE)
 

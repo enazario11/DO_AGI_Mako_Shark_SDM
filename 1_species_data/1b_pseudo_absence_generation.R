@@ -7,7 +7,7 @@ library(terra)
 library(tmvtnorm)
 
 ### NOTE ####
-#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. Please feel free to replicate or replace the file paths as needed.
+#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory.
 
 #load data ####
 #checking min and max lat/lon for describing PA domain

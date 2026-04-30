@@ -3,7 +3,7 @@
 ####deemed unnecessary to include in the final models. 
 
 ### NOTE ####
-#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. Please feel free to replicate or replace the file paths as needed.
+#Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory. 
 
 ###load packages####
 library(tidyverse)
@@ -33,10 +33,6 @@ do_0h <- do_0 %>% resample(template_rast)
 
 chl_0 <- rast(here("data/enviro/psat_spot_all/biogeo_cmem/0m/CMEMS_CHL_0m_JAN2003_Dec2015_0.25deg_D.nc"))
 chl_0h <- chl_0 %>% resample(template_rast)
-
-##### 60m #####
-do_60 <- rast(here("data/enviro/psat_spot_all/biogeo_cmem/60m/CMEMS_DO_60m_JAN2003_Dec2015_0.25deg_D.nc"))
-do_60h <- do_60 %>% resample(template_rast)
 
 ##### 250m #####
 do_250 <- rast(here("data/enviro/psat_spot_all/biogeo_cmem/250m/CMEMS_DO_250m_JAN2003_Dec2015_0.25deg_D.nc"))
@@ -219,30 +215,6 @@ mld0_terra <- readRDS(here("data/enviro/psat_spot_all/phys_merc/0m/processed/mld
 
 mld_0h <- mld0_terra %>% resample(template_rast)
 
-##### 60m #####
-#temperature
-temp60_curv <- list.files(here("data/enviro/psat_spot_all/phys_merc/60m/temp"), full.names = TRUE)
-temp60_reg <- stars_to_terra(temp60_curv, nc_var_name = "votemper", depth = 60)
-#saveRDS(temp60_reg, here("data/enviro/psat_spot_all/phys_merc/60m/processed/temp60_terra.rds"))
-temp60_terra <- readRDS(here("data/enviro/psat_spot_all/phys_merc/60m/processed/temp60_terra.rds"))
-
-temp_60h <- temp60_terra %>% resample(template_rast)
-
-#salinity
-sal60_curv <- list.files(here("data/enviro/psat_spot_all/phys_merc/60m/so"), full.names = TRUE)
-sal60_reg <- stars_to_terra(sal60_curv, nc_var_name = "vosaline", depth = 60)
-#saveRDS(sal60_reg, here("data/enviro/psat_spot_all/phys_merc/60m/processed/sal60_terra.rds"))
-sal60_terra <- readRDS(here("data/enviro/psat_spot_all/phys_merc/60m/processed/sal60_terra.rds"))
-
-sal_60h <- sal60_terra %>% resample(template_rast)
-
-#UO (downward x sea water stress (sozotaux) and velocity(vozocrtx))
-# uo60_curv <- list.files(here("data/enviro/psat_spot_all/phys_merc/60m/uo"), full.names = TRUE)
-# uo60_reg <- stars_to_terra(uo60_curv, nc_var_name = "vozocrtx", depth = 60)
-# #saveRDS(uo60_reg, here("data/enviro/psat_spot_all/phys_merc/60m/processed/uo60_terra.rds"))
-# uo60_terra <- readRDS(here("data/enviro/psat_spot_all/phys_merc/60m/processed/uo60_terra.rds"))
-# 
-# uo_0h <- uo0_terra %>% resample(template_rast)
 
 ##### 250m #####
 #temperature
@@ -279,16 +251,6 @@ all_0h
 
 #writeCDF(all_0h, filename = here("data/enviro/psat_spot_all/all_processed/CMEM_DO_CHL_Temp_SO_UO_UOSTR_VO_VOSTR_SSH_MLD_0m_Jan2003_Dec2015_0.25_D.nc"))
 test <- rast(here("data/enviro/psat_spot_all/all_processed/CMEM_DO_CHL_Temp_SO_UO_UOSTR_VO_VOSTR_SSH_MLD_0m_Jan2003_Dec2015_0.25_D.nc"))
-
-##### 60m ####
-all_60h <- sds(do_60h, temp_60h, sal_60h)
-names(all_60h) <- c("o2", "votemper", "vosaline")
-longnames(all_60h) <- c("dissolved oxygen", "sea water temperature", "salinity")
-units(all_60h) <- c("mmol/m^3", "C", "PSU")
-all_60h
-
-#writeCDF(all_60h, filename = here("data/enviro/psat_spot_all/all_processed/CMEM_DO_Temp_SO_60m_Jan2003_Dec2015_0.25_D.nc"))
-test <- rast(here("data/enviro/psat_spot_all/all_processed/CMEM_DO_Temp_SO_60m_Jan2003_Dec2015_0.25_D.nc"))
 
 ##### 250m ####
 all_250h <- sds(do_250h, temp_250h, sal_250h)

@@ -1,6 +1,4 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#load packages####
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#load libraries ####
 {library(tidyverse)
 library(sf)
 library(terra)
@@ -195,29 +193,6 @@ ggplot(cmem_0m_long, aes(x = value, fill = PA)) +
   theme_bw()+
   scale_fill_manual(values = c("dodgerblue4", "darkseagreen4"))
 
-##### 60m extract ####
-# dat extract ###
-cmem_nc60 <- nc_open(here("data/enviro/psat_spot_all/all_processed/annual_res/dat_60m_annual.nc"))
-
-xtracto_cmem_depth = function(input_file, nc_file){
-  input_file <- getvarCMEM_ann(nc_file, "vosaline", input_file, 0.25, mean, "mean")
-  input_file <- getvarCMEM_ann(nc_file, "votemper", input_file, 0.25, mean, "mean")
-  input_file <- getvarCMEM_ann(nc_file, "o2", input_file, 0.25, mean, "mean")
-}
-
-all_dat_cmem_60m_ann <- xtracto_cmem_depth(input_file_ann, cmem_nc60)
-head(all_dat_cmem_60m_ann)
-
-#saveRDS(all_dat_cmem_60m_ann, here("data/locs_w_covar/psat_spot/annual/cmem_locs_covar_60m_ann.rds"))
-
-#explore
-cmem_60m_long <- gather(all_dat_cmem_60m_ann, covar, value, vosaline_mean:o2_mean) %>% mutate(PA = as.factor(PA))
-
-ggplot(cmem_60m_long, aes(x = value, fill = PA)) + 
-  geom_density(alpha = 0.5) + 
-  facet_wrap(~covar, scales = "free") + 
-  theme_bw()+
-  scale_fill_manual(values = c("dodgerblue4", "darkseagreen4"))
 
 ##### 250m extract ####
 # dat extract ###
@@ -272,30 +247,6 @@ head(all_cmem_covar_0m_seas)
 cmem_0m_long <- gather(all_cmem_covar_0m_seas, covar, value, somxlavt_mean:bathy_sd) %>% mutate(PA = as.factor(PA))
 
 ggplot(cmem_0m_long, aes(x = value, fill = PA)) + 
-  geom_density(alpha = 0.5) + 
-  facet_wrap(~covar, scales = "free") + 
-  theme_bw()+
-  scale_fill_manual(values = c("dodgerblue4", "darkseagreen4"))
-
-#### 60m extract ####
-# dat extract ###
-cmem_nc60_seas <- nc_open(here("data/enviro/psat_spot_all/all_processed/season_res/dat_60m_season.nc"))
-
-xtracto_cmem_depth = function(input_file, nc_file){
-  input_file <- getvarCMEM_seas(nc_file, "vosaline", input_file, 0.25, mean, "mean")
-  input_file <- getvarCMEM_seas(nc_file, "votemper", input_file, 0.25, mean, "mean")
-  input_file <- getvarCMEM_seas(nc_file, "o2", input_file, 0.25, mean, "mean")
-}
-
-all_dat_cmem_60m_seas <- xtracto_cmem_depth(input_file_seas, cmem_nc60_seas)
-head(all_dat_cmem_60m_seas)
-
-#saveRDS(all_dat_cmem_60m_seas, here("data/locs_w_covar/psat_spot/seasonal/cmem_locs_covar_60m_seas.rds"))
-
-#explore
-cmem_60m_long <- gather(all_dat_cmem_60m_seas, covar, value, vosaline_mean:o2_mean) %>% mutate(PA = as.factor(PA))
-
-ggplot(cmem_60m_long, aes(x = value, fill = PA)) + 
   geom_density(alpha = 0.5) + 
   facet_wrap(~covar, scales = "free") + 
   theme_bw()+

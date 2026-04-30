@@ -122,38 +122,6 @@ all_cmem_covar_0m %>%
             mean_vostr = mean(sometauy, na.rm = TRUE),
             mean_chl = mean(chl_mean, na.rm = TRUE))
 
-#60m extract ####
-# dat extract ###
-cmem_nc60 <- nc_open(here("data/enviro/psat_spot_all/all_processed/CMEM_DO_Temp_SO_60m_Jan2003_Dec2015_0.25_D.nc"))
-
-xtracto_cmem_depth = function(input_file, nc_file){
-  input_file <- getvarCMEM(nc_file, "o2", input_file, 0.25, mean, "mean")
-  input_file <- getvarCMEM(nc_file, "votemper", input_file, 0.25, mean, "mean")
-  input_file <- getvarCMEM(nc_file, "vosaline", input_file, 0.25, mean, "mean")
-}
-
-all_dat_cmem_60m <- xtracto_cmem_depth(input_file, cmem_nc60)
-
-#saveRDS(all_dat_cmem_60m, here("data/locs_w_covar/psat_spot/cmem_locs_covar_60m.rds"))
-head(all_dat_cmem_60m)
-
-#explore
-ggplot(all_dat_cmem_60m, aes(o2_mean)) + geom_histogram(bins = 30, color = "grey") + facet_wrap(~PA, scales = "free") + theme_bw()
-
-cmem_60m_long <- gather(all_dat_cmem_60m, covar, value, o2_mean:vosaline_mean) %>% mutate(PA = as.factor(PA))
-
-ggplot(cmem_60m_long, aes(x = value, fill = PA)) + 
-  geom_density(alpha = 0.5) + 
-  facet_wrap(~covar, scales = "free") + 
-  theme_bw()+
-  scale_fill_manual(values = c("dodgerblue4", "darkseagreen4"))
-
-all_dat_cmem_60m %>% 
-  group_by(PA) %>% 
-  summarise(mean_temp = mean(votemper_mean, na.rm = TRUE), 
-            mean_do = mean(o2_mean, na.rm = TRUE),
-            mean_sal = mean(vosaline_mean, na.rm = TRUE))
-
 #250m extract ####
 # dat extract ###
 cmem_nc250 <- nc_open(here("data/enviro/psat_spot_all/all_processed/CMEM_DO_Temp_SO_250m_Jan2003_Dec2015_0.25_D.nc"))
