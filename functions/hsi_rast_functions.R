@@ -134,7 +134,7 @@ hsi_rast_gen <- function(date_start = c("2003-01-01"), date_end = c("2015-12-31"
   bathy_sd <- rast(here("data/enviro/psat_spot_all/bathy_gebco/processed/bathy_sd_0.25.nc"))
   
   #generate AGI rasters ---------------------------------------------------------------------------------------
-  source(here("functions/oxy_demand_functions.R"))
+  source(here("functions/oxy_demand_functions_rev.R"))
   OxyThresh_0m = 0.04928389 #value converted from Vetter concentration data to atm according to salinity, temp, and pressure at 0m
   OxyThresh_250m = 0.03816138 #value converted from Vetter concentration data to atm according to salinity, temp, and pressure at 250m
   Tpref = 16.45201 #mean temp experienced by sharks at mean dive depth (50m)
@@ -326,7 +326,7 @@ hsi_rast_gen_sd <- function(date_start = c("2003-01-01"), date_end = c("2015-12-
   bathy_sd <- rast(here("data/enviro/psat_spot_all/bathy_gebco/processed/bathy_sd_0.25.nc"))
   
   #generate AGI rasters ---------------------------------------------------------------------------------------
-  source(here("functions/oxy_demand_functions.R"))
+  source(here("functions/oxy_demand_functions_rev.R"))
   OxyThresh_0m = 0.04928389 #value converted from Vetter concentration data to atm according to salinity, temp, and pressure at 0m
   OxyThresh_250m = 0.03816138 #value converted from Vetter concentration data to atm according to salinity, temp, and pressure at 250m
   Tpref = 16.45201 #mean temp experienced by sharks at mean dive depth (50m)
@@ -526,7 +526,7 @@ hsi_maps <- function(rast_folder, ms = c("Y", "N")){
     theme_map() +
     theme(axis.text.x = element_blank(), legend.position = "none", axis.title.x = element_blank())
   
-  if(ms == "Y"){ggsave(here("figs/ms/fig6_hsi_all/indiv_panels/base_pred_all.png"), base_map, height = 5, width = 5)}
+  if(ms == "Y"){ggsave(here("figs/ms/fig8_hsi_all/indiv_panels/base_pred_all.png"), base_map, height = 5, width = 5)}
   
     #do map
   #calculate percent area polygon takes up of raster 
@@ -1575,9 +1575,9 @@ agi_maps_layerd <- function(rast_folder_base = NULL, rast_folder_LN = NULL, rast
   #map
     agi_one_250m <- ggplot() + 
       geom_spatraster(data = agi_250m_base) + 
-      geom_spatvector(data = one_poly_250m_base, color = "black", fill = NA, linewidth = 0.8) +
-      geom_spatvector(data = one_poly_250m_LN, color = "lightskyblue1", fill = NA, linewidth = 0.8) +
-      geom_spatvector(data = one_poly_250m_EN, color = "white", fill = NA, linewidth = 0.8) +
+      geom_spatvector(data = one_poly_250m_base, color = "black", fill = NA, linewidth = 1.3) +
+      geom_spatvector(data = one_poly_250m_LN, color = "grey30", fill = NA, linewidth = 1.3) +
+      geom_spatvector(data = one_poly_250m_EN, color = "white", fill = NA, linewidth = 1.3) +
       geom_map(data=testt,map=testt,aes(map_id=region,x=long,y=lat),fill="darkgrey",color="black")+
       scale_x_continuous(expand=c(0,0),limits = c(-153,-103)) +
       scale_y_continuous(expand=c(0,0),limits = c(1,49))+

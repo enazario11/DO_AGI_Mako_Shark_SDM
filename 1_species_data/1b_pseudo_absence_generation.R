@@ -5,6 +5,7 @@ library(sf)
 library(here);here <- here::here
 library(terra)
 library(tmvtnorm)
+library(rnaturalearth)
 
 ### NOTE ####
 #Please replace files paths as needed. This code was developed within an R Project, and thus the referenced file paths originate from the project's root directory.
@@ -58,10 +59,11 @@ bounding_box <- st_bbox(box_coords) %>% st_as_sfc()
 bb_merc <- st_transform(bounding_box, crs = "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=km +no_defs")
 
 #read in continents polygon
-land_vect <- read_sf(here("data/enviro/continents_shp/World_Continents.shp"))
+land <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+land_vect <- vect(land)
 
 land_merc = land_vect %>%
-  st_as_sfc() %>%
+  st_as_sf() %>%
   st_transform(crs = "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=km +no_defs")
 
 land_subset <- st_intersection(land_merc, bb_merc)

@@ -96,8 +96,6 @@ OxyDemand <- function(Tpref, PO2_thresh, T_C, W = 51807.63, d = 0.700, K =  0.07
  
 # } 
   
-
-
 rast_to_atm <- function(do, temp, so, depth){
     # Constants:
     # Constants for the calculation of the saturation concentration of O2 in sea water (from Sarmiento & Gruber (2006), Garcia & Gorden (1992)):
