@@ -1,5 +1,4 @@
 ### NOTE: From this script on, we have omitted the 60 m depth layer as this was not included in the final analysis
-
 ### load packages ####
 library(tidyverse)
 library(here)
@@ -14,15 +13,17 @@ source(here("functions/oxy_demand_functions_rev.R"))
 
 ### convert DO to atm ####
 # 0m
-dat0_DOatm <- DO_to_atm(dat0, depth = 0)
-thresh0 <- thresh_atm(temp = median(dat0_DOatm$votemper_mean, na.rm = TRUE), so_psu = median(dat0_DOatm$vosaline_mean, na.rm = TRUE), depth = 0) #defualt do value is 2 mL/L from vetter et al., 2008
+dat0_DOatm <- dat0 %>%
+  mutate(pO2_0 = do_to_atm(do = o2_mean, t = votemper_mean, s = vosaline_mean))
+thresh0 <- do_to_atm(do = 2, t = median(dat0_DOatm$votemper_mean, na.rm = TRUE), s = median(dat0_DOatm$vosaline_mean, na.rm = TRUE), thresh = TRUE) #defualt do value is 2 mL/L from vetter et al., 2008
 
-hist(dat0_DOatm$pO2_0, xlim = c(0, 0.20)) 
+hist(dat0_DOatm$pO2_0, xlim = c(0, 0.30)) 
 abline(v = thresh0, lwd = 2)
 
 #250m 
-dat250_DOatm <- DO_to_atm(dat250, depth = 250)
-thresh250 <- thresh_atm(temp = median(dat250_DOatm$votemper_mean, na.rm = TRUE), so_psu = median(dat250_DOatm$vosaline_mean, na.rm = TRUE), depth = 250)
+dat250_DOatm <- dat250 %>%
+  mutate(pO2_250 = do_to_atm(do = o2_mean, t = votemper_mean, s = vosaline_mean))
+thresh250 <- do_to_atm(do = 2, t = median(dat250_DOatm$votemper_mean, na.rm = TRUE), s = median(dat250_DOatm$vosaline_mean, na.rm = TRUE), thresh = TRUE)
 
 hist(dat250_DOatm$pO2_250)
 abline(v = thresh250, lwd = 2)
